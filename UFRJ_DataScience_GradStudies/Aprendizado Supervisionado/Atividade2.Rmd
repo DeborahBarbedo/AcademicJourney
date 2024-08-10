@@ -1,0 +1,351 @@
+---
+title: "Atividade 2"
+author: "Deborah Pereira"
+date: "12/06/2021"
+output: pdf_document
+---
+
+```{r message=FALSE}
+
+rm(list=ls())
+setwd("C:/Users/debor/OneDrive/Propria - Estudo/Pós-Graduação Ciencia de Dados/Aprendizado supervisionado I/Aula 4 - 20210512/Atividade2")
+
+```
+
+  
+# Pacotes
+
+
+```{r}
+library(readr)
+library(gclus)
+```
+
+
+# Função de apoio
+
+
+```{r}
+
+normalizador = function(dado_entrada){
+  for(i in 1:ncol(dado_entrada)){
+    maximo = max(dado_entrada[,i])
+    minimo = min(dado_entrada[,i])
+    dif = ifelse(maximo-minimo == 0, 1, maximo-minimo)
+    dado_entrada[,i] = (dado_entrada[,i]-minimo)/dif
+  }
+  return(dado_entrada)
+}
+
+```
+
+
+
+# Leitura dos dados
+
+
+```{r message=FALSE}
+
+dado = read_csv("dado.csv")
+head(dado)
+
+summary(dado)
+
+```
+
+
+
+
+# 1) Construa gráficos exploratórios que ajude a entender a relação entre as variáveis. Interprete.
+
+```{r}
+
+dta = dado[3:6] 
+dta.r = abs(cor(dta)) 
+cor(dta)
+dta.col = dmat.color(dta.r) 
+dta.o = order.single(dta.r)
+cpairs(dta, dta.o, panel.colors=dta.col, gap=.5,
+       main="Variaveis coloridas pela correlação." )
+
+rm(dta); rm(dta.col);rm(dta.r); rm(dta.o)
+
+```
+Todas as variáveis possuem correlação positiva de moderada à forte.
+
+O preço possui valores muito maiores do que das outras variáveis, talvez colocando todos em um mesmo range, seja mais fácil analisar.
+
+```{r}
+
+dado_normalizado=normalizador(dado[3:6])
+
+par(mfrow=c(1,3))
+
+boxplot(dado_normalizado
+        ,main = "Com todos os restaurantes"
+        ,names = colnames(dado[3:6])
+        ,ylim = c(0, 1)
+)
+
+boxplot(dado_normalizado[dado["InMichelin"]==1,]
+        ,main = "Com restaurantes InMichelin"
+        ,names = colnames(dado[3:6])
+        ,ylim = c(0, 1)
+)
+
+boxplot(dado_normalizado[dado["InMichelin"]!=1,]
+        ,main = "Com restaurantes não InMichelin"
+        ,names = colnames(dado[3:6])
+        ,ylim = c(0, 1)
+)
+
+```
+
+
+Em preço, existem muitos outliers, em geral as variáveis dos restaurantes "InMichel" estão com os valores acima da média global.
+
+```{r}
+par(mfrow=c(2,2))
+
+plot(dado$Price,dado$InMichelin, ylab = "InMichelin", xlab="Price")
+plot(dado$Service,dado$InMichelin, ylab = "InMichelin", xlab="Service")
+plot(dado$Decor,dado$InMichelin, ylab = "InMichelin", xlab="Decor")
+plot(dado$Food,dado$InMichelin, ylab = "InMichelin", xlab="Food")
+```
+Desta forma, a visualização do comportamento das variáveis não é tão explícita como o na visualização anterior. A não ser a variável preço, que a mudança de seu comportamento, para restaurantes "InMichel", continua sendo visível neste gráfico.
+
+
+# 2) Ajuste modelos de regressão variando as funções de ligação e covariáveis do modelo. Logit/Probit etc
+
+## Probit
+
+```{r message=FALSE}
+mod1 = glm(InMichelin ~ Food + Decor + Service + Price
+           ,family = binomial(link="probit")
+           ,data = dado)
+summary(mod1)
+
+
+mod2 = glm(InMichelin ~  Food + Price
+           ,family = binomial(link="probit")
+           ,data = dado)
+summary(mod2)
+```
+Do modelo 1 para o modelo 2, foram retiradas as variáveis que foram indicadas como não significativas ao modelo. O AIC do modelo 1 é o melhor.
+
+## Logit
+
+
+```{r message=FALSE}
+mod3 = glm(InMichelin ~ Food + Decor + Service + Price
+           ,family = binomial(link="logit")
+           ,data = dado)
+summary(mod3)
+
+
+mod4 = glm(InMichelin ~ Food + Price
+           ,family = binomial(link="logit")
+           ,data = dado)
+summary(mod4)
+```
+
+Aqui foi utilizado o mesmo método anterior para exclusão das variáveis no modelo 4.
+O AIC do modelo 4 é ligeiramente maior do que o do modelo 3.
+
+
+
+# 3) Interprete os coeficientes estimados para o melhor modelo.
+
+Escolhendo o modelo 4, que teve o AIC ligeiramente maior que o do modelo 3, mas mais parcimonioso. Temos que pela razão de chances $e^\beta = 1.36$ para cada ponto adicional da variável comida, a probabilidade de ser um restaurante "InMichelin" aumenta aproximadamente 36%. Já em relação ao preço, com $\beta = 0.09317$, pela razão de chances a cada ponto em que o restaurante fica mais caro, a probabilidade de ser classificado como um restaurante "InMichelin" aumenta aproximadamente 9%.
+
+
+# 4) Existem pontos “outliers”? Comente
+
+Sim, a variável preços possui muitos outliers, o que ficou claro com a visualização dos dados já normalizados.
+
+
+```{r}
+rm(list=ls())
+setwd("C:/Users/debor/OneDrive/Propria - Estudo/Pós-Graduação Ciencia de Dados/Aprendizado supervisionado I/Aula 4 - 20210512/Atividade2")
+```
+
+
+# Bibliotecas
+
+```{r message=FALSE, warning=FALSE}
+library(readxl)
+library(gclus)
+library(caret)
+library(erer)
+```
+
+
+
+# Função de apoio
+
+
+```{r}
+normalizador = function(dado_entrada){
+  for(i in 1:ncol(dado_entrada)){
+    maximo = max(dado_entrada[,i])
+    minimo = min(dado_entrada[,i])
+    dif = ifelse(maximo-minimo == 0, 1, maximo-minimo)
+    dado_entrada[,i] = (dado_entrada[,i]-minimo)/dif
+  }
+  return(dado_entrada)
+}
+```
+
+
+# Leitura dos dados
+```{r}
+dado <- read.csv("dado2.txt", sep="")
+head(dado)
+summary(dado)
+```
+
+
+
+# 1) Divida os dados em uma amostra de treinamento e outra de teste.
+
+```{r}
+set.seed(42)
+
+dado["Aleatorio"]= rbinom(nrow(dado),1,0.3)
+
+dado_teste = dado[dado["Aleatorio"]==1,-8]
+dado_treino = dado[dado["Aleatorio"]==0,-8]
+dado = dado[,-8]
+
+summary(dado_teste)
+summary(dado_treino)
+```
+
+
+
+# 2) Construa gráficos exploratórios que ajude a entender a relação entre as variáveis. Interprete.
+
+```{r}
+dta = dado_treino[2:7] 
+dta.r = abs(cor(dta)) 
+cor(dta)
+dta.col = dmat.color(dta.r) 
+dta.o = order.single(dta.r)
+cpairs(dta, dta.o, panel.colors=dta.col, gap=.5,
+       main="Variaveis coloridas pela correlação." )
+
+rm(dta); rm(dta.col);rm(dta.r); rm(dta.o)
+```
+
+A correlação entre as variáveis é desprezível.
+
+A diagonal é muito maior do que as outras métricas, para que seja mais fácil analisar, os dados serão normalizados.
+
+```{r fig.height=5, fig.width=15}
+dado_normalizado=normalizador(dado_treino[2:7])
+
+par(mfrow=c(1,3))
+
+boxplot(dado_normalizado
+        ,main = "Boxplot com todos as notas"
+        ,names = colnames(dado_treino[2:7])
+        ,ylim = c(0, 1)
+)
+
+boxplot(dado_normalizado[dado_treino["y"]==1,]
+        ,main = "Boxplot com notas genuínas"
+        ,names = colnames(dado_treino[2:7])
+        ,ylim = c(0, 1)
+)
+
+boxplot(dado_normalizado[dado_treino["y"]!=1,]
+        ,main = "Boxplot com notas falsas"
+        ,names = colnames(dado_treino[2:7])
+        ,ylim = c(0, 1)
+)
+
+```
+
+A medida Bottom parece ser a mais forte para indicar se a nota é falsa ou não. Por ser uma pequena parte da população sendo notas falsas, o boxplot com todas as notas genuínas é muito parecido com o de todas as notas.
+
+# 3) Ajuste modelos de regressão variando as funções de ligação e covariáveis do modelo.
+
+## Probit
+
+```{r}
+mod1 = glm(y ~ Length + Left + Right + Bottom + Top + Diagonal
+           ,family = binomial(link="probit")
+           ,data = dado)
+summary(mod1)
+
+
+mod2 = glm(y ~ Length + Left + Right + Bottom + Top
+           ,family = binomial(link="probit")
+           ,data = dado)
+summary(mod2)
+```
+O modelo 2 possui melhor AIC, em relação ao modelo 1, foi retirada a variável Diagonal, que deu como não significativa.
+
+## Logit
+
+```{r}
+mod3 = glm(y ~ Length + Left + Right + Bottom + Top + Diagonal
+           ,family = binomial(link="logit")
+           ,data = dado)
+summary(mod3)
+
+
+mod4 = glm(y ~ Length + Left + Right + Bottom + Top
+           ,family = binomial(link="logit")
+           ,data = dado)
+summary(mod4)
+```
+
+Novamente foi retirada a variável diagonal para por não ser significativa ao modelo. O modelo 4 possui o melhor AIC.
+
+# 4) Faça a previsão fora da amostra de treino e compare os modelos. Comente.
+
+Será comparado os melhores modelos de cada função de ligação.
+
+Matriz de confusão modelo 2:
+
+```{r}
+dado_teste$mod2 = predict(mod2
+                          ,newdata = dado_teste
+                          ,type="response")
+
+summary(dado_teste$mod2)
+
+#Matriz de confusão
+
+confusionMatrix(data = as.factor(round(dado_teste$mod2,0))
+                ,reference = as.factor(dado_teste$y)
+                ,positive = "1")
+```
+
+
+Matriz de confusão modelo 4:
+```{r}
+# Teste
+dado_teste$mod4 = predict(mod4
+                          ,newdata = dado_teste
+                          ,type="response")
+
+summary(dado_teste$mod4)
+
+#Matriz de confusão
+
+confusionMatrix(data = as.factor(round(dado_teste$mod4,0))
+                ,reference = as.factor(dado_teste$y)
+                ,positive = "1")
+```
+
+A diferença entre os dois modelos não é muito grande, foi predito apenas um a mais de forma errada no modelo 4. Neste caso, a sensibilidade é a melhor métrica para decidirmos qual melhor modelo, pois também é conhecido como “probabilidade de detecção", então será adotado como melhor modelo, o modelo 2.
+
+# 5) Interprete os coeficientes estimados para o melhor modelo em termos de ajuste e preditivo.
+
+```{r}
+summary(mod2)
+
+```
+Todas as variáveis são significativas no modelo. Como esperado pela visualização do boxplot, os coeficientes de Bottom e Top são positivos, o que indica que o aumento no preditor, aumenta a probabilidade de ser uma nota genuína. Já o coeficiente de Left é negativo, o que significa que seu aumento leva uma diminuição na probabilidade de ser uma nota genuína.

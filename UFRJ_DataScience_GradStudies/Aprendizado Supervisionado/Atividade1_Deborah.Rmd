@@ -1,0 +1,205 @@
+---
+title: "Atividade 1"
+author: "Deborah Pereira"
+date: "22/04/2021"
+output: pdf_document
+---
+
+```{r message=FALSE, warning=FALSE}
+
+library(modelr)
+library(tidyverse)
+library(gapminder)
+library(caret)
+
+```
+
+
+# (a)
+
+
+```{r fig.height=5, fig.width=10}
+
+dados = gapminder[gapminder$year ==2007,]
+dados["ln_gdpPercap"] = log(dados$gdpPercap)
+
+par(mfrow=c(1,2))
+
+plot(dados$gdpPercap
+     ,dados$lifeExp
+     ,main = "Expectativa de vida x PIB per capita"
+     ,ylab = "Expectativa de vida"
+     ,xlab = "PIB per capita")
+
+plot(dados$ln_gdpPercap
+     ,dados$lifeExp
+     ,main = "Expectativa de vida x log(PIB per capita)"
+     ,ylab = "Expectativa de vida"
+     ,xlab = "log(PIB per capita)")
+
+```
+
+Inicialmente, não parece ter uma relação linear entre Expectativa de vida e PIB per capita.
+Sim, após a transformação do PIB per capita a relação parece ser mais linear.
+
+# (b)
+
+Divisão entre dados teste e dados treinamento:
+
+
+```{r}
+
+set.seed(123)
+
+dados["Aux"]=rbinom(n=nrow(dados),size=1,1/3)
+
+dados_teste = dados[dados$Aux == 0,1:7]
+dados_treino = dados[dados$Aux == 1,1:7]
+
+```
+
+
+• Modelo 1: dados x e y na escala original;
+
+```{r}
+modelo1= lm(lifeExp ~ gdpPercap,  data = dados_treino)
+
+summary(modelo1)
+```
+
+
+• Modelo 2: log(x) como covariável, y na escala original;
+
+```{r}
+modelo2= lm(lifeExp ~ ln_gdpPercap, data = dados_treino)
+
+summary(modelo2)
+```
+
+O R² está indicando que a variabilidade da expectativa de vida é explicada em 63,85% pelo modelo 2, já pelo modelo 1, apenas 43,49%.
+
+
+# (c)
+
+Scatter plot para os dois ajustes: 
+
+
+```{r fig.height=6, fig.width=12}
+par(mfrow=c(1,2))
+
+plot(dados_treino$lifeExp ~ dados_treino$gdpPercap
+     ,data = dados_treino
+     ,main ="Expectativa de vida x PIB per capita"
+     ,ylab="Expectativa de vida"
+     ,xlab="PIB per capita")
+abline(modelo1, col =2)
+
+plot(dados_treino$lifeExp ~ dados_treino$ln_gdpPercap
+     ,data = dados_treino
+     ,main ="Expectativa de vida x ln(PIB per capita)"
+     ,ylab="Expectativa de vida"
+     ,xlab="ln PIB per capita")
+abline(modelo2, col =2)
+```
+
+Utilizando a transformação logarítmica do PIB per capita, melhorou para que utilizássemos uma regressão linear para previsão da expectativa de vida. Mesmo assim, ainda não parece ser o melhor modelo, pois é possível notar que ainda há simetria nos erros.
+
+
+```{r fig.height=6, fig.width=12}
+par(mfrow=c(2,2))
+
+plot(modelo1, which = 1:2)
+
+plot(modelo2, which = 1:2)
+        
+```
+
+# (d)
+
+Previsão no conjunto de teste para os 2 modelos:
+
+
+
+```{r}
+previsao_modelo1= predict(modelo1,dados_teste)
+previsao_modelo2= predict(modelo2,dados_teste)   
+
+plot(dados_teste$lifeExp ~ dados_teste$gdpPercap
+     ,data = dados_teste
+     ,main ="Expectativa de vida x PIB per capita"
+     ,ylab="Expectativa de vida"
+     ,xlab="PIB per capita")
+
+# Adicionando o valor previsto pelo modelo1
+points(x = dados_teste$gdpPercap,
+       y = previsao_modelo1,
+       pch = 16,
+       col = 3)
+
+# Adicionando o valor previsto pelo modelo2
+points(x = dados_teste$gdpPercap,
+       y = previsao_modelo2,
+       pch = 16,
+       col = 2)
+
+legend("bottomright",
+       legend=c("Real","Predito modelo 1", "Predito modelo 2"),
+       lty=c(1,1,1),
+       col=c(1,3,2))
+
+```
+
+
+É possível ver que o modelo 2 prevê melhor os dados.
+
+Medidas de acurácia para comparar os modelos:
+
+```{r}
+rmse(model = modelo1, data =  dados_teste)
+rmse(model = modelo2, data =  dados_teste)
+```
+
+Pelo RMSE, o modelo 2 parece ser um melhor modelo em relação ao modelo 1.
+
+# (e)
+
+Verificando se existem países com comportamentos que destoem dos demais, na amostra de treinamento, com o uso de scatter:
+
+
+```{r fig.height=5, fig.width=10}
+par(mfrow=c(1,2))
+
+ggplot(dados_treino, aes(x=ln_gdpPercap, y=lifeExp, color= continent)) +
+geom_point() +
+geom_text(label=dados_treino$country)+
+labs(title="Expectativa de vida X Ln PIB per capita",
+x=" ln PIB per capita", y = "Expectativa de vida")
+
+ggplot(dados_treino, aes(x= gdpPercap, y= lifeExp, color= continent)) +
+geom_point() +
+geom_text(label=dados_treino$country)+
+labs(title="Expectativa de vida X Ln PIB per capita",
+x=" ln PIB per capita", y = "Expectativa de vida")
+
+
+    
+```
+
+Angola, África do Sul, Namíbia e Trinidad and Tobago parecem se destoar.
+Retirando esses países da análise:
+
+```{r}
+
+dados_treino2 = subset(dados_treino,
+                       country != "Angola" & country != "South Africa" & country != "Namibia" & country != "Trinidad and Tobago")
+
+```
+
+Refazendo o ajuste:
+
+```{r}
+modelo2_2= lm(lifeExp ~ ln_gdpPercap, data = dados_treino2)
+
+summary(modelo2_2)
+```
+O R² é agora de 78,66%, antes da retirada dos países era de 63,85%. Houve uma melhora.
