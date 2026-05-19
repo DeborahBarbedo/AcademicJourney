@@ -1,4 +1,4 @@
-### 🏔️ Dados Geomorfológicos (TOPODATA - INPE)
+### Dados Geomorfológicos (TOPODATA - INPE)
 
 > ⚠️ **Nota de Armazenamento:** Devido ao grande volume e tamanho dos arquivos raster (`.tif`), os dados brutos do TOPODATA não estão versionados neste repositório (incluídos no `.gitignore`). Eles devem ser baixados diretamente do banco de dados do INPE e armazenados localmente na pasta `Dados/TOPODATA/`.
 
@@ -18,6 +18,17 @@ O projeto utiliza os dados da folha **22S435** (cobertura da região de Niterói
 | `22S435H3.tif` / `H5.tif` | **Variáveis Hidrológicas** | Direção e acúmulo de fluxo/drenagem superficial. |
 | `22S435SA.tif` a `SC.tif` | **Atributos de Curvatura Complementares** | Análises secundárias de aceleração e desaceleração de fluxo de água no solo. |
 
-#### 📥 Como obter estes dados?
+#### Como obter estes dados?
 Os dados originais estão disponíveis gratuitamente no site oficial do projeto TOPODATA (INPE):
-🔗 [http://www.dsr.inpe.br/topodata/acesso.php](http://www.dsr.inpe.br/topodata/acesso.php)
+ [http://www.dsr.inpe.br/topodata/acesso.php](http://www.dsr.inpe.br/topodata/acesso.php)
+
+### Dados Vetoriais Ambientais (IBGE)
+
+Os vetores ambientais fornecidos pelo IBGE estão inclusos diretamente neste repositório na pasta `Dados/IBGE/`. Para manter a organização do diretório, os arquivos originais do formato Shapefile foram compactados em arquivos `.zip`:
+
+* `pedo_area_mu_3303302.zip` — **Pedologia:** Mapeamento dos tipos de solo de Niterói (essencial para analisar a porosidade e capacidade de retenção de água).
+* `vege_area_mu_3303302.zip` — **Vegetação:** Tipos de cobertura vegetal e uso do solo (importante para modelar a estabilização das encostas pelas raízes).
+
+#### Como obter estes dados?
+Os dados originais estão disponíveis gratuitamente no site oficial:
+ [https://geoftp.ibge.gov.br/informacoes_ambientais/](https://geoftp.ibge.gov.br/informacoes_ambientais/)
