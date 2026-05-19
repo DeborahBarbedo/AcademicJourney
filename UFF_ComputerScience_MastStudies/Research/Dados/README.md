@@ -20,4 +20,4 @@ O projeto utiliza os dados da folha **22S435** (cobertura da região de Niterói
 
 #### 📥 Como obter estes dados?
 Os dados originais estão disponíveis gratuitamente no site oficial do projeto TOPODATA (INPE):
-🔗 [http://www.webmapit.com.br/inpe/topodata/](http://www.webmapit.com.br/inpe/topodata/)
+🔗 [http://www.dsr.inpe.br/topodata/acesso.php](http://www.dsr.inpe.br/topodata/acesso.php)
