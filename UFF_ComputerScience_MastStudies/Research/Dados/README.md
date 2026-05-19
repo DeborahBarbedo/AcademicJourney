@@ -32,3 +32,23 @@ Os vetores ambientais fornecidos pelo IBGE estão inclusos diretamente neste rep
 #### Como obter estes dados?
 Os dados originais estão disponíveis gratuitamente no site oficial:
  [https://geoftp.ibge.gov.br/informacoes_ambientais/](https://geoftp.ibge.gov.br/informacoes_ambientais/)
+
+### Dados Geoespaciais Locais (HUB SIGeo - Niterói)
+
+Os arquivos contidos na pasta `Dados/HUB_SIGeo/` foram obtidos diretamente do **SIGeo**, o portal de dados abertos e informações geográficas da Prefeitura de Niterói. Esses dados fornecem o contexto local ultraespecífico necessário para calibrar os modelos de deslizamento.
+
+Estão padronizados no formato **GeoJSON** e divididos em camadas temáticas estratégicas:
+
+| Arquivo GeoJSON | Tipo de Informação | Relevância para o Modelo de Risco |
+| :--- | :--- | :--- |
+| `areas_de_risco_Defesa_Civil.geojson` | **Dados de Campo** | Polígonos das áreas mapeadas como de risco crítico pela Defesa Civil de Niterói. (Crucial para validação/alvo do modelo). |
+| `Comunidades.geojson` / `Uso_do_solo_favela.geojson` | **Socioambiental** | Delimitação de assentamentos precários e comunidades, onde a vulnerabilidade social e a ocupação de encostas aumentam o risco. |
+| `Uso_do_solo_ocupacao_desordenada.geojson` | **Uso e Ocupação** | Vetores de expansão urbana sem planejamento, fator antrópico muito associado a gatilhos de deslizamentos. |
+| `Uso_do_solo_cobertura_vegetal.geojson` | **Cobertura Vegetal** | Detalhamento local da vegetação urbana e matas nativas de Niterói. |
+| `Uso_do_solo_afloramento_rochoso.geojson` / `rocha.geojson` | **Geologia/Litologia** | Áreas expostas de rocha onde o comportamento de escoamento de água e estabilidade é completamente diferente do solo. |
+| `Unidades_de_Conservacao_Integral.geojson` | **Restrição Ambiental** | Áreas protegidas (como o Parque da Serra da Tiririca), importantes para isolar fatores de preservação. |
+| `Uso_do_solo_agricola.geojson` / `corpo_hidrico.geojson` / `exploracao_mineral.geojson` | **Atividades e Hidrografia** | Mapeamento de corpos d'água, drenagem superficial, mineração e áreas agrícolas que alteram a dinâmica do terreno. |
+
+#### Fonte dos Dados
+Os dados originais e suas atualizações podem ser consultados no Hub oficial de Geoinformação de Niterói:
+🔗 [SIGeo Niterói - Portal de Dados](https://www.sigeo.niteroi.rj.gov.br/pages/dados-abertos)
