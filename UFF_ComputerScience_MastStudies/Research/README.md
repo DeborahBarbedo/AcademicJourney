@@ -1,210 +1,53 @@
-# \# Previsão de Deslizamentos de Terra em Niterói
+# Previsão de Deslizamentos de Terra em Niterói
 
-# 
+![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)
+![Data Science](https://img.shields.io/badge/Data%20Science-Project-green.svg)
+![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Deep%20Learning-orange.svg)
 
-# Este repositório reúne os arquivos, códigos, dados e documentos utilizados no desenvolvimento de modelos de previsão de deslizamentos de terra no município de Niterói, como parte do projeto \*\*PDPA\*\* da Prefeitura de Niterói.
+Este repositório reúne os arquivos, códigos, dados e documentos utilizados no desenvolvimento de modelos de previsão de deslizamentos de terra no município de Niterói, como parte do projeto **PDPA** (Programa de Desenvolvimento de Projetos Aplicados) da Prefeitura de Niterói.
 
-# 
+O objetivo principal é apoiar ações de monitoramento, prevenção e mitigação de riscos geotécnicos por meio de técnicas de **Ciência de Dados**, **Machine Learning** e análise de séries temporais, integrando informações meteorológicas, geográficas e geotécnicas.
 
-# O objetivo do projeto é apoiar ações de monitoramento, prevenção e mitigação de riscos geotécnicos por meio de técnicas de \*\*Ciência de Dados\*\*, \*\*Machine Learning\*\* e análise de séries temporais, integrando informações meteorológicas, geográficas e geotécnicas.
+---
 
-# 
+## 🎯 Objetivos do Projeto
 
-# \---
+*   Desenvolver modelos preditivos acurados para o risco de deslizamentos de terra.
+*   Apoiar sistemas locais de alerta precoce e defesa civil.
+*   Integrar dados complexos espaciais, temporais e ambientais.
+*   Avaliar e aplicar técnicas robustas para o tratamento de **dados altamente desbalanceados**.
+*   Comparar o desempenho de diferentes arquiteturas tradicionais de Machine Learning e Deep Learning.
 
-# 
+---
 
-# \## 📁 Estrutura do Repositório
+## 📁 Estrutura do Repositório
 
-# 
+O projeto está organizado na seguinte estrutura de diretórios:
 
-# O projeto está organizado nas seguintes pastas:
+| Pasta | Descrição |
+| :--- | :--- |
+| `📂 Codigos` | Scripts e Jupyter Notebooks de pré-processamento, engenharia de atributos, treinamento e testes com Deep Learning (LSTM, CNN-LSTM). |
+| `📂 Dados` | Conjuntos de dados brutos e processados provenientes de satélites, estações meteorológicas, sensores e modelos digitais de elevação. |
+| `📂 Documentacao` | Materiais de apoio, artigos, relatórios técnicos, planilhas de evolução e avaliação de desempenho dos experimentos. |
+| `📂 Descontinuado` | Arquivos, modelos e experimentos antigos mantidos exclusivamente para fins de rastreabilidade e histórico do projeto. |
 
-# 
+---
 
-# \### 📂 `Codigos`
+## 🛠️ Tecnologias e Abordagens Utilizadas
 
-# Contém os scripts e notebooks utilizados no desenvolvimento dos modelos, incluindo:
+O desenvolvimento deste projeto envolve o estado da arte em modelagem preditiva para desastres naturais:
 
-# 
+*   **Modelagem Temporal e Espacial:** Redes neurais Recorrentes (**LSTM**), arquiteturas híbridas (**CNN-LSTM**) e classificação de séries temporais.
+*   **Tratamento de Dados Desbalanceados:** Técnicas de *oversampling*, funções de perda customizadas (como *Focal Loss*) e métricas de avaliação apropriadas (Precision-Recall, F1-Score, AUC-PR).
+*   **Análise de Domínio:** Processamento de dados pluviométricos (acumulados de chuva) e análise de variáveis geotécnicas.
 
-# \- Pré-processamento de dados;
+---
 
-# \- Engenharia de atributos;
+## 🚀 Como Começar (Exemplo)
 
-# \- Treinamento e avaliação de modelos;
+Se você deseja replicar os experimentos ou analisar os notebooks, siga os passos abaixo:
 
-# \- Modelagem espacial e temporal;
-
-# \- Testes com arquiteturas de Deep Learning.
-
-# 
-
-# \---
-
-# 
-
-# \### 📂 `Dados`
-
-# Armazena os conjuntos de dados utilizados e gerados durante o projeto.
-
-# 
-
-# As informações foram obtidas a partir de diferentes fontes, como:
-
-# 
-
-# \- Imagens de satélite;
-
-# \- Dados pluviométricos;
-
-# \- Estações meteorológicas;
-
-# \- Sensores geotécnicos;
-
-# \- Modelos digitais de elevação;
-
-# \- Bases geoespaciais e ambientais.
-
-# 
-
-# \---
-
-# 
-
-# \### 📂 `Descontinuado`
-
-# Reúne arquivos, modelos, experimentos e versões que foram descontinuados ao longo da pesquisa e desenvolvimento do projeto.
-
-# 
-
-# Essa pasta é mantida para fins de rastreabilidade e documentação histórica das abordagens testadas.
-
-# 
-
-# \---
-
-# 
-
-# \### 📂`Documentacao`
-
-# Contém materiais de apoio e documentação técnica do projeto, incluindo:
-
-# 
-
-# \- Artigos científicos de referência;
-
-# \- Estudos e análises exploratórias;
-
-# \- Evolução dos modelos;
-
-# \- Relatórios técnicos;
-
-# \- Avaliação de desempenho dos experimentos.
-
-# 
-
-# A documentação principal do projeto encontra-se organizada em arquivos Excel e documentos complementares.
-
-# 
-
-# \---
-
-# 
-
-# \## Tecnologias e Abordagens Utilizadas
-
-# 
-
-# O projeto explora diferentes técnicas de modelagem e análise de dados, incluindo:
-
-# 
-
-# \- Machine Learning;
-
-# \- Deep Learning;
-
-# \- Redes neurais LSTM;
-
-# \- CNN-LSTM;
-
-# \- Modelagem espacial;
-
-# \- Classificação de séries temporais desbalanceadas;
-
-# \- Técnicas de oversampling;
-
-# \- Funções de perda para dados desbalanceados;
-
-# \- Análise pluviométrica e geotécnica.
-
-# 
-
-# \---
-
-# 
-
-# \## Objetivos do Projeto
-
-# 
-
-# \- Desenvolver modelos preditivos para deslizamentos de terra;
-
-# \- Apoiar sistemas de alerta e prevenção;
-
-# \- Integrar dados espaciais, temporais e ambientais;
-
-# \- Avaliar técnicas robustas para dados desbalanceados;
-
-# \- Comparar diferentes arquiteturas de Machine Learning e Deep Learning.
-
-# 
-
-# \---
-
-# 
-
-# \## Referências Bibliográficas
-
-# 
-
-# O desenvolvimento deste projeto foi fundamentado em estudos das áreas de:
-
-# 
-
-# \- Modelagem de suscetibilidade a deslizamentos;
-
-# \- Previsão baseada em precipitação;
-
-# \- Deep Learning aplicado a séries temporais;
-
-# \- Técnicas para tratamento de dados desbalanceados;
-
-# \- Modelagem geoespacial e ambiental.
-
-# 
-
-# \### Principais Referências
-
-# 
-
-# \- Von Ruette et al. (2011) — \*Spatial statistical modeling of shallow landslides\*;
-
-# \- Pourghasemi \& Rahmati (2018) — \*Prediction of landslide susceptibility\*;
-
-# \- Souza \& Ebecken (2012) — \*Prediction of rainfall-induced landslides in Rio de Janeiro\*;
-
-# \- Kuradusenge et al. (2020) — \*Rainfall-induced landslide prediction using machine learning\*;
-
-# \- Lin et al. (2017) — \*Focal Loss for Dense Object Detection\*;
-
-# \- Karim et al. (2018) — \*LSTM Fully Convolutional Networks for Time Series Classification\*;
-
-# \- Hou et al. (2022) — \*Deep-learning prediction model for imbalanced time series forecasting\*.
-
-# 
-
-# As referências completas encontram-se disponíveis ao final deste documento e na pasta `Documentacao`.
-
-# 
-
+### 1. Clonar o Repositório
+```bash
+git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+cd seu-repositorio
