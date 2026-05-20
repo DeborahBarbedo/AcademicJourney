@@ -4,7 +4,7 @@
 ![Data Science](https://img.shields.io/badge/Data%20Science-Project-green.svg)
 ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Deep%20Learning-orange.svg)
 
-Este repositório reúne os arquivos, códigos, dados e documentos utilizados no desenvolvimento de modelos de previsão de deslizamentos de terra no município de Niterói, como parte do projeto **PDPA** (Programa de Desenvolvimento de Projetos Aplicados) da Prefeitura de Niterói.
+Este repositório reúne os arquivos, códigos, dados e documentos utilizados no desenvolvimento de modelos de previsão de deslizamentos de terra no município de Niterói, como parte do projeto **PDPA** da Prefeitura de Niterói.
 
 O objetivo principal é apoiar ações de monitoramento, prevenção e mitigação de riscos geotécnicos por meio de técnicas de **Ciência de Dados**, **Machine Learning** e análise de séries temporais, integrando informações meteorológicas, geográficas e geotécnicas.
 
