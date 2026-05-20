@@ -41,13 +41,4 @@ O desenvolvimento deste projeto envolve o estado da arte em modelagem preditiva 
 *   **Tratamento de Dados Desbalanceados:** Técnicas de *oversampling*, funções de perda customizadas (como *Focal Loss*) e métricas de avaliação apropriadas (Precision-Recall, F1-Score, AUC-PR).
 *   **Análise de Domínio:** Processamento de dados pluviométricos (acumulados de chuva) e análise de variáveis geotécnicas.
 
----
 
-## 🚀 Como Começar (Exemplo)
-
-Se você deseja replicar os experimentos ou analisar os notebooks, siga os passos abaixo:
-
-### 1. Clonar o Repositório
-```bash
-git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
-cd seu-repositorio
